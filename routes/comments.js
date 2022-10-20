@@ -36,6 +36,21 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.put("/:id", async (req, res) => {
+    try {
+        const comment = await Comment.findById(req.params.id);
+        comment.userID = req.body.userID;
+        comment.username = req.body.username;
+        comment.hotelName = req.body.hotelName;
+        comment.commentContent = req.body.commentContent;
+        const c = await comment.save()
+        res.json(c)
+    } catch (err) {
+        console.log(err.message);
+        res.send("Error in Updating Comment (PUT)");
+    }
+})
+
 router.patch("/:id", async (req, res) => {
     try {
         const comment = await Comment.findById(req.params.id);
@@ -44,7 +59,7 @@ router.patch("/:id", async (req, res) => {
         res.json(c)
     } catch (err) {
         console.log(err.message);
-        res.send("Error in Updating Comment");
+        res.send("Error in Updating Comment (PATCH)");
     }
 })
 
